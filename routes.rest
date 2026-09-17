@@ -1,0 +1,67 @@
+### ============================
+### Environment variables
+### ============================
+@dev = http://localhost:3000
+
+
+### ============================
+### ARTISTS
+### ============================
+
+### Get all artists
+GET {{dev}}/artists
+
+### Get a single artist by id (reemplaza con un _id real de tu colección artists)
+GET {{dev}}/artists/6aab6d43cf86b74f6b374cb7
+
+### Test with an invalid id format
+GET {{dev}}/artists/123
+
+### Create artist
+# @name createArtist
+POST {{dev}}/artists HTTP/1.1
+content-type: application/json
+
+{
+    "fname": "Salvador",
+    "mname": "",
+    "lname": "Dali",
+    "dob": "1904",
+    "dod": "1989",
+    "country": "Spain",
+    "localArtist": false
+}
+
+### Verify the new artist was created (usa el id devuelto por el POST de arriba)
+GET {{dev}}/artists/{{createArtist.response.body.id}}
+
+
+### ============================
+### ARTWORKS
+### ============================
+
+### Get all artworks
+GET {{dev}}/artworks
+
+### Get a single artwork by id (reemplaza con un _id real de tu colección artworks)
+GET {{dev}}/artworks/6aab70cdcf86b74f6b374cbe
+
+### Test with an invalid id format
+GET {{dev}}/artworks/123
+
+### Create artwork (usa el id del artista creado arriba, o uno real que ya tengas)
+# @name createArtwork
+POST {{dev}}/artworks HTTP/1.1
+content-type: application/json
+
+{
+    "title": "The Persistence of Memory",
+    "artyear": 1931,
+    "period": "Surrealism",
+    "arttype": "Oil on canvas",
+    "artfile": "persistence-of-memory.jpg",
+    "artistId": "{{createArtist.response.body.id}}"
+}
+
+### Verify the new artwork was created
+GET {{dev}}/artworks/{{createArtwork.response.body.id}}
