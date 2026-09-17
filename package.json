@@ -1,0 +1,21 @@
+{
+  "name": "cse341-w03-project2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "type": "commonjs",
+  "dependencies": {
+    "body-parser": "^2.3.0",
+    "dotenv": "^18.0.0",
+    "express": "^5.2.1",
+    "mongodb": "^7.6.0",
+    "swagger-autogen": "^2.23.7",
+    "swagger-ui-express": "^5.0.1",
+    "validatorjs": "^3.22.1"
+  }
+}
