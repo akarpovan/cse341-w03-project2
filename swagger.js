@@ -1,5 +1,6 @@
 const swaggerAutogen = require('swagger-autogen')();
 
+// para desarrollo: no olvidar de generar el archivo swagger.json con "npm run swagger"
 /*const doc = {
     info: {
         title: 'Art API',
@@ -8,15 +9,14 @@ const swaggerAutogen = require('swagger-autogen')();
     host: 'localhost:3000',
     schemes: ['http']
 };*/
-// Render define automáticamente la variable de entorno RENDER_EXTERNAL_HOSTNAME con su dominio real 
-// (cse341-w03-project2.onrender.com)
+// para produccion: no olvidar de generar el archivo swagger.json con "npm run swagger"
 const doc = {
     info: {
         title: 'Art API',
         description: 'API for managing artists and their artworks'
     },
-    host: process.env.RENDER_EXTERNAL_HOSTNAME || 'localhost:3000',
-    schemes: [process.env.RENDER_EXTERNAL_HOSTNAME ? 'https' : 'http']
+    host: 'cse341-w03-project2.onrender.com',
+    schemes: ['https']
 };
 
 const outputFile = './swagger.json';

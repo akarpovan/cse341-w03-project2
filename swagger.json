@@ -5,10 +5,10 @@
     "description": "API for managing artists and their artworks",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "cse341-w03-project2.onrender.com",
   "basePath": "/",
   "schemes": [
-    "http"
+    "https"
   ],
   "paths": {
     "/": {
