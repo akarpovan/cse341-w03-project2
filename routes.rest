@@ -2,6 +2,7 @@
 ### Environment variables
 ### ============================
 @dev = http://localhost:3000
+@contentType = application/json
 
 
 ### ============================
@@ -17,10 +18,13 @@ GET {{dev}}/artists/6aab6d43cf86b74f6b374cb7
 ### Test with an invalid id format
 GET {{dev}}/artists/123
 
+### Test with a valid format id that does not exist
+GET {{dev}}/artists/000000000000000000000000
+
 ### Create artist
 # @name createArtist
 POST {{dev}}/artists HTTP/1.1
-content-type: application/json
+content-type: {{contentType}}
 
 {
     "fname": "Salvador",
@@ -34,6 +38,64 @@ content-type: application/json
 
 ### Verify the new artist was created (usa el id devuelto por el POST de arriba)
 GET {{dev}}/artists/{{createArtist.response.body.id}}
+
+### Create artist with missing/invalid fields (should return 412 validation error)
+POST {{dev}}/artists HTTP/1.1
+content-type: {{contentType}}
+
+{
+    "fname": "",
+    "lname": "Test"
+}
+
+### Update the artist created above (valid data)
+PUT {{dev}}/artists/{{createArtist.response.body.id}} HTTP/1.1
+content-type: {{contentType}}
+
+{
+    "fname": "Salvador",
+    "mname": "Domingo",
+    "lname": "Dali",
+    "dob": "1904",
+    "dod": "1989",
+    "country": "Spain",
+    "localArtist": true
+}
+
+### Verify the update
+GET {{dev}}/artists/{{createArtist.response.body.id}}
+
+### Try to update with an invalid id format (should return 400)
+PUT {{dev}}/artists/123 HTTP/1.1
+content-type: {{contentType}}
+
+{
+    "fname": "Salvador",
+    "mname": "Domingo",
+    "lname": "Dali",
+    "dob": "1904",
+    "dod": "1989",
+    "country": "Spain",
+    "localArtist": true
+}
+
+### Try to update with invalid body data (should return 412 validation error)
+PUT {{dev}}/artists/{{createArtist.response.body.id}} HTTP/1.1
+content-type: {{contentType}}
+
+{
+    "fname": "",
+    "lname": "Dali"
+}
+
+### Delete the artist created above
+DELETE {{dev}}/artists/{{createArtist.response.body.id}}
+
+### Verify the delete (should return 404 / not found)
+GET {{dev}}/artists/{{createArtist.response.body.id}}
+
+### Try to delete with an invalid id format (should return 400)
+DELETE {{dev}}/artists/123
 
 
 ### ============================
@@ -49,10 +111,13 @@ GET {{dev}}/artworks/6aab70cdcf86b74f6b374cbe
 ### Test with an invalid id format
 GET {{dev}}/artworks/123
 
+### Test with a valid format id that does not exist
+GET {{dev}}/artworks/000000000000000000000000
+
 ### Create artwork (usa el id del artista creado arriba, o uno real que ya tengas)
 # @name createArtwork
 POST {{dev}}/artworks HTTP/1.1
-content-type: application/json
+content-type: {{contentType}}
 
 {
     "title": "The Persistence of Memory",
@@ -60,8 +125,64 @@ content-type: application/json
     "period": "Surrealism",
     "arttype": "Oil on canvas",
     "artfile": "persistence-of-memory.jpg",
-    "artistId": "{{createArtist.response.body.id}}"
+    "artistId": "6aab6d43cf86b74f6b374cb7"
 }
 
 ### Verify the new artwork was created
 GET {{dev}}/artworks/{{createArtwork.response.body.id}}
+
+### Create artwork with missing/invalid fields (should return 412 validation error)
+POST {{dev}}/artworks HTTP/1.1
+content-type: {{contentType}}
+
+{
+    "title": "",
+    "period": "Surrealism"
+}
+
+### Update the artwork created above (valid data)
+PUT {{dev}}/artworks/{{createArtwork.response.body.id}} HTTP/1.1
+content-type: {{contentType}}
+
+{
+    "title": "The Persistence of Memory (Updated)",
+    "artyear": 1931,
+    "period": "Surrealism",
+    "arttype": "Oil on canvas, restored",
+    "artfile": "persistence-of-memory-v2.jpg",
+    "artistId": "6aab6d43cf86b74f6b374cb7"
+}
+
+### Verify the update
+GET {{dev}}/artworks/{{createArtwork.response.body.id}}
+
+### Try to update with an invalid id format (should return 400)
+PUT {{dev}}/artworks/123 HTTP/1.1
+content-type: {{contentType}}
+
+{
+    "title": "The Persistence of Memory",
+    "artyear": 1931,
+    "period": "Surrealism",
+    "arttype": "Oil on canvas",
+    "artfile": "persistence-of-memory.jpg",
+    "artistId": "6aab6d43cf86b74f6b374cb7"
+}
+
+### Try to update with invalid body data (should return 412 validation error)
+PUT {{dev}}/artworks/{{createArtwork.response.body.id}} HTTP/1.1
+content-type: {{contentType}}
+
+{
+    "title": "",
+    "period": "Surrealism"
+}
+
+### Delete the artwork created above
+DELETE {{dev}}/artworks/{{createArtwork.response.body.id}}
+
+### Verify the delete (should return 404 / not found)
+GET {{dev}}/artworks/{{createArtwork.response.body.id}}
+
+### Try to delete with an invalid id format (should return 400)
+DELETE {{dev}}/artworks/123

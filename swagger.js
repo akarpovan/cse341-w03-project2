@@ -3,8 +3,7 @@ const swaggerAutogen = require('swagger-autogen')();
 // para desarrollo: no olvidar de generar el archivo swagger.json con "npm run swagger"
 /*const doc = {
     info: {
-        title: 'Art API',
-        description: 'API for managing artists and their artworks'
+         description: 'API for managing artists and their artworks'
     },
     host: 'localhost:3000',
     schemes: ['http']

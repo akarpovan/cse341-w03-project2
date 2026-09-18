@@ -52,8 +52,54 @@ const createArtwork = async (req, res) => {
     }
 };
 
+const updateArtwork = async (req, res) => {
+    //#swagger.tags=['Artworks']
+    if (!ObjectId.isValid(req.params.id)) {
+        return res.status(400).json('Must use a valid artwork id to update an artwork.');
+    }
+    try {
+        const artworkId = new ObjectId(req.params.id);
+        const artwork = {
+            title: req.body.title,
+            artyear: req.body.artyear,
+            period: req.body.period,
+            arttype: req.body.arttype,
+            artfile: req.body.artfile,
+            artistId: req.body.artistId
+        };
+        const response = await mongodb.getDatabase().db().collection('artworks').replaceOne({ _id: artworkId }, artwork);
+        if (response.modifiedCount > 0) {
+            res.status(204).send();
+        } else {
+            res.status(500).json(response.error || 'Some error occurred while updating the artwork.');
+        }
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+const deleteArtwork = async (req, res) => {
+    //#swagger.tags=['Artworks']
+    if (!ObjectId.isValid(req.params.id)) {
+        return res.status(400).json('Must use a valid artwork id to delete an artwork.');
+    }
+    try {
+        const artworkId = new ObjectId(req.params.id);
+        const response = await mongodb.getDatabase().db().collection('artworks').deleteOne({ _id: artworkId });
+        if (response.deletedCount > 0) {
+            res.status(204).send();
+        } else {
+            res.status(500).json(response.error || 'Some error occurred while deleting the artwork.');
+        }
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
 module.exports = {
     getAll,
     getSingle,
-    createArtwork
+    createArtwork,
+    updateArtwork,
+    deleteArtwork
 };
