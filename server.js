@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 app.use(session({
     secret: "secret",
     resave: false,
-    saveUninitialized: false, // Importante: false para no crear sesiones vacías
+    saveUninitialized: false, // false para no crear sesiones vacías
     cookie: { secure: false } // false porque estamos en localhost (http)
 }));
 
@@ -49,11 +49,11 @@ passport.use(new GitHubStrategy({
 
 // --- SERIALIZACIÓN ---
 passport.serializeUser((user, done) => {
-    done(null, user); // Guardamos el objeto completo
+    done(null, user); // se guarda el objeto completo
 });
 
 passport.deserializeUser((user, done) => {
-    done(null, user); // Devolvemos el objeto completo
+    done(null, user); // se devuelve el objeto completo
 });
 
 // --- RUTAS ---
@@ -67,7 +67,7 @@ app.use('/', require('./routes'));
 });*/
 app.get('/', (req, res) => {
     if (req.session.user) {
-        // Usa username si displayName es null
+        // se usa username si displayName es null
         const name = req.session.user.displayName || req.session.user.username || 'Usuario';
         res.send(`Logged in as ${name}`);
     } else {

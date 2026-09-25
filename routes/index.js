@@ -3,7 +3,6 @@ const passport = require('passport');
 
 router.use('/api-docs', require('./swagger'));
 
-// ELIMINA O COMENTA ESTA LÍNEA:
 // router.get('/', (req, res) => {
 //     res.send('Hello World!');
 // });
